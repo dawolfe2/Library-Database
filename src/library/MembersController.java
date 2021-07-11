@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 
 public class MembersController implements Initializable {
 
-    @Override
+@Override
     public void initialize(URL url, ResourceBundle rb) {
         
     }    

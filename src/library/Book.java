@@ -4,35 +4,38 @@ package library;
 
 public class Book {
     
-    private int bookID;
+    private String isbn;
     private String title;
     private String author;
     private String publisher;
     private String date;
-    private String status;
     private String genre;
-    private String edition;
     private int pages;
+    private int quantity;
+    private int available;
     
     
-    public Book(int bookID, String title, String author, String publisher, String date, String status, String genre, String edition, int pages){
-        this.bookID = bookID;
+    
+    public Book(String isbn, String title, String author, String publisher, String date, String genre, int pages, int quantity, int available){
+        
+        this.isbn = isbn;
         this.title = title;
         this.author = author;
         this. publisher = publisher;
         this.date = date;
-        this.status = status;
         this.genre = genre;
-        this.edition = edition;
         this.pages = pages;
+        this.quantity = quantity;
+        this.available = available;
+        
     }
 
-    public int getBookID() {
-        return bookID;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -67,28 +70,12 @@ public class Book {
         this.date = date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getGenre() {
         return genre;
     }
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public String getEdition() {
-        return edition;
-    }
-
-    public void setEdition(String edition) {
-        this.edition = edition;
     }
 
     public int getPages() {
@@ -98,6 +85,21 @@ public class Book {
     public void setPages(int pages) {
         this.pages = pages;
     }
-    
-    
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
 }

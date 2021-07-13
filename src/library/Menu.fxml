@@ -4,11 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.MenuController">
    <children>
-      <Label fx:id="directory" layoutX="286.0" layoutY="81.0" style="-fx-font-size: 26;" text="Directory" />
-      <Button fx:id="member" layoutX="267.0" layoutY="252.0" onAction="#handleButtonAction1" style="-fx-font-size: 18;" text="Member Information" />
-      <Button fx:id="books" layoutX="298.0" layoutY="313.0" onAction="#handleButtonAction2" style="-fx-font-size: 18;" text="Book Archive" />
-      <Button fx:id="rentals" layoutX="296.0" layoutY="371.0" onAction="#handleButtonAction3" style="-fx-font-size: 18;" text="Rented Books" />
+      <Label fx:id="directory" layoutX="375.0" layoutY="81.0" style="-fx-font-size: 26;" text="Directory" />
+      <Button fx:id="member" layoutX="333.0" layoutY="311.0" onAction="#handleButtonAction1" style="-fx-font-size: 18;" text="Member Information" />
+      <Button fx:id="books" layoutX="363.0" layoutY="383.0" onAction="#handleButtonAction2" style="-fx-font-size: 18;" text="Book Archive" />
+      <Button fx:id="rentals" layoutX="361.0" layoutY="452.0" onAction="#handleButtonAction3" style="-fx-font-size: 18;" text="Rented Books" />
    </children>
 </AnchorPane>

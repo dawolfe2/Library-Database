@@ -70,8 +70,6 @@ public class BooksController implements Initializable {
                 table.getItems().clear();
                 String search = txtSearch.getText();
 
-                System.out.println(search);
-
                 String sql = "SELECT * FROM book WHERE title LIKE ? OR author Like ? OR genre LIKE ? OR publisher LIKE ? OR isbn LIKE ?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, "%" + search + "%");
@@ -82,7 +80,6 @@ public class BooksController implements Initializable {
                 ResultSet rs = p.executeQuery();
                 ObservableList<Book> bookList; 
                 bookList = FXCollections.observableArrayList();
-                System.out.println("asdf");
 
                 while (rs.next()) {
 
@@ -96,7 +93,6 @@ public class BooksController implements Initializable {
                     int available = rs.getInt("available"); 
                     String date = rs.getString("datepublished");
 
-                    System.out.println(isbn);
 
                     Book newbook = new Book(isbn, title, author, publisher, date, genre, pages, quantity, available);
                     bookList.add(newbook);
@@ -116,8 +112,92 @@ public class BooksController implements Initializable {
     @FXML
     private void ButtonAdd(ActionEvent event) throws IOException {
         
+        ObservableList<Book> selected = table.getSelectionModel().getSelectedItems();
         
+        if(selected.get(0) == null){
+            
+        }
+        
+        else{     
+            try {
+                
+                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
+                
+                String isbn = selected.get(0).getIsbn();
+                
+                String sql = "SELECT quantity, available FROM book WHERE isbn=?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setString(1, isbn);
+                ResultSet rs = p.executeQuery();
+                 
+                while(rs.next()){
+                    
+                    int quantity = rs.getInt("quantity");
+                    int available = rs.getInt("available");
+                    quantity = quantity + 1;
+                    available = available + 1;
+
+                    sql = "UPDATE book SET quantity=?, available=? WHERE isbn=?";
+                    p = connection.prepareStatement(sql);
+                    p.setInt(1, quantity);
+                    p.setInt(2, available);
+                    p.setString(3, isbn);
+                    p.executeUpdate();
+                    
+                }  
+            }    
+            catch (SQLException ex) {
+            }
+        if(txtSearch.getText().isEmpty()){
+            
+        }
+        else{
+            
+            try {
+
+                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
+                table.getItems().clear();
+                String search = txtSearch.getText();
+
+                String sql = "SELECT * FROM book WHERE title LIKE ? OR author Like ? OR genre LIKE ? OR publisher LIKE ? OR isbn LIKE ?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setString(1, "%" + search + "%");
+                p.setString(2, "%" + search + "%");
+                p.setString(3, "%" + search + "%");
+                p.setString(4, "%" + search + "%");
+                p.setString(5, search + "%");
+                ResultSet rs = p.executeQuery();
+                ObservableList<Book> bookList; 
+                bookList = FXCollections.observableArrayList();
+
+                while (rs.next()) {
+
+                    String isbn = rs.getString("isbn");
+                    String title = rs.getString("title");
+                    String author = rs.getString("author");
+                    String publisher = rs.getString("publisher");
+                    String genre = rs.getString("genre");
+                    int pages = rs.getInt("pages");
+                    int quantity = rs.getInt("quantity");
+                    int available = rs.getInt("available"); 
+                    String date = rs.getString("datepublished");
+
+
+                    Book newbook = new Book(isbn, title, author, publisher, date, genre, pages, quantity, available);
+                    bookList.add(newbook);
+
+                }  
+
+                table.setItems(bookList); 
+
+            }
+            catch(SQLException ex){
+
+            }
+        }        
+        }
     }
+    
     
     @FXML
     private void ButtonNew(ActionEvent event) throws IOException {

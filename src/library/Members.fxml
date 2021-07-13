@@ -9,20 +9,21 @@
 <AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.MembersController">
    <children>
       <TextField fx:id="txtSearch" layoutX="48.0" layoutY="36.0" prefHeight="25.0" prefWidth="283.0" promptText="Search by Title, Author, ISBN, Genre or Publisher" />
-      
       <TableView fx:id="table" layoutX="1.0" layoutY="88.0" prefHeight="497.0" prefWidth="900.0">
         <columns>
           <TableColumn fx:id="IDColumn" prefWidth="93.0" text="Member ID" />
-          <TableColumn fx:id="firstColumn" prefWidth="204.0" text="First Name" />
-            <TableColumn fx:id="lastColumn" prefWidth="135.0" text="Last Name" />
-            <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="127.0" text="Date of Birth" />
-            <TableColumn fx:id="addressColumn" minWidth="0.0" prefWidth="72.0" text="Address" />
-            <TableColumn fx:id="rentalColumn" prefWidth="44.0" text="Rentals" />
+          <TableColumn fx:id="firstColumn" prefWidth="129.0" text="First Name" />
+            <TableColumn fx:id="lastColumn" prefWidth="123.0" text="Last Name" />
+            <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="137.0" text="Date of Birth" />
+            <TableColumn fx:id="addressColumn" minWidth="0.0" prefWidth="118.0" text="Address" />
+            <TableColumn fx:id="rentalColumn" prefWidth="101.0" text="Primary Phone" />
+            <TableColumn fx:id="rentalColumn1" prefWidth="70.0" text="Primary Email" />
+            <TableColumn fx:id="rentalColumn2" prefWidth="70.0" text="Rentals" />
         </columns>
       </TableView>
-      <Button fx:id="btnSearch" layoutX="352.0" layoutY="36.0" mnemonicParsing="false" text="Search" />
-      <Button fx:id="btnBack" layoutX="131.0" layoutY="625.0" mnemonicParsing="false" text="Back" />
-      <Button fx:id="btnNew" layoutX="698.0" layoutY="625.0" mnemonicParsing="false" text="New Member" />
+      <Button fx:id="btnSearch" layoutX="352.0" layoutY="36.0" mnemonicParsing="false" onAction="#ButtonSearch" text="Search" />
+      <Button fx:id="btnBack" layoutX="88.0" layoutY="638.0" mnemonicParsing="false" onAction="#ButtonBack" prefHeight="25.0" prefWidth="52.0" text="Back" />
+      <Button fx:id="btnNew" layoutX="730.0" layoutY="638.0" mnemonicParsing="false" onAction="#ButtonNew" text="New Member" />
       
    </children>
 </AnchorPane>

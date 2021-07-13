@@ -27,9 +27,9 @@ import javafx.stage.Stage;
 
 public class BooksController implements Initializable {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    private Stage newstage;
+    private Scene newscene;
+    private Parent newroot;
     
     @FXML private TextField txtSearch;
     @FXML private TableView<Book> table;
@@ -56,7 +56,7 @@ public class BooksController implements Initializable {
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
     }    
     
-     @FXML
+    @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
  
         if(txtSearch.getText().isEmpty()){
@@ -205,8 +205,8 @@ public class BooksController implements Initializable {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("BookAdd.fxml"));
-            Parent newroot = (Parent) loader.load();
-            Stage newstage = new Stage();
+            newroot = (Parent) loader.load();
+            newstage = new Stage();
             newstage.setScene(new Scene(newroot));
             newstage.show();
 
@@ -219,11 +219,11 @@ public class BooksController implements Initializable {
     @FXML
     private void ButtonBack(ActionEvent event) throws IOException {
         
-        root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        newroot = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+        newstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        newscene = new Scene(newroot);
+        newstage.setScene(newscene);
+        newstage.show();
         
     } 
 }

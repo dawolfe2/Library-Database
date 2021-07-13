@@ -21,9 +21,9 @@ import javafx.stage.Stage;
 
 public class BookAddController implements Initializable {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    private Stage newstage;
+    private Scene newscene;
+    private Parent newroot;
     
     @FXML private TextField txtID;
     @FXML private TextField txtTitle;
@@ -41,8 +41,8 @@ public class BookAddController implements Initializable {
     
     @FXML
     private void ButtonExit(ActionEvent event) throws IOException {
-        stage = (Stage) btnExit.getScene().getWindow();
-        stage.close();
+        newstage = (Stage) btnExit.getScene().getWindow();
+        newstage.close();
     }
     
     @FXML

@@ -40,7 +40,7 @@ public class MenuController implements Initializable {
     
     @FXML
     private void handleButtonAction3(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Members.fxml"));
+        root = FXMLLoader.load(getClass().getResource("Rentals.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

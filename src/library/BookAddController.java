@@ -77,12 +77,11 @@ public class BookAddController implements Initializable {
                
             try {
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
-//                
+                
                 String sql = "INSERT INTO book (isbn, title, author, publisher, genre, pages, quantity, available, datepublished) Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement p = connection.prepareStatement(sql);
                        
                 p.setString(1, isbn);
-                
                 p.setString(2, title);
                 p.setString(3, author);
                 p.setString(4, publisher);

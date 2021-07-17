@@ -31,83 +31,77 @@ public class MembersController implements Initializable {
     private Scene newscene;
     private Parent newroot;
     
-//    @FXML private TextField txtSearch;
-//    @FXML private TableView<Book> table;
-//    @FXML private TableColumn<Book, String> isbnColumn;
-//    @FXML private TableColumn<Book, String> titleColumn;
-//    @FXML private TableColumn<Book, String> authorColumn;
-//    @FXML private TableColumn<Book, String> publisherColumn;
-//    @FXML private TableColumn<Book, String> genreColumn;
-//    @FXML private TableColumn<Book, Integer> pagesColumn;
-//    @FXML private TableColumn<Book, String> dateColumn;
-//    @FXML private TableColumn<Book, Integer> availableColumn;
-//    @FXML private TableColumn<Book, Integer> quantityColumn;
+    @FXML private TextField txtSearch;
+    @FXML private TableView<Member> table;
+    @FXML private TableColumn<Member, String> IDColumn;
+    @FXML private TableColumn<Member, String> firstColumn;
+    @FXML private TableColumn<Member, String> lastColumn;
+    @FXML private TableColumn<Member, String> dateColumn;
+    @FXML private TableColumn<Member, String> addressColumn;
+    @FXML private TableColumn<Member, String> phoneColumn;
+    @FXML private TableColumn<Member, String> emailColumn;
+    @FXML private TableColumn<Member, Integer> rentalColumn;
     
 @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-//        isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-//        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-//        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-//        publisherColumn.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-//        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
-//        pagesColumn.setCellValueFactory(new PropertyValueFactory<>("pages"));
-//        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-//        availableColumn.setCellValueFactory(new PropertyValueFactory<>("available"));
-//        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        IDColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstColumn.setCellValueFactory(new PropertyValueFactory<>("first"));
+        lastColumn.setCellValueFactory(new PropertyValueFactory<>("last"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneOne"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("emailOne"));
+        rentalColumn.setCellValueFactory(new PropertyValueFactory<>("rentals"));
         
     }   
     
    @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
-// 
-//        if(txtSearch.getText().isEmpty()){
-//            
-//        }
-//        else{
-//            
-//            try {
-//
-//                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
-//                table.getItems().clear();
-//                String search = txtSearch.getText();
-//
-//                String sql = "SELECT * FROM book WHERE title LIKE ? OR author Like ? OR genre LIKE ? OR publisher LIKE ? OR isbn LIKE ?";
-//                PreparedStatement p = connection.prepareStatement(sql);
-//                p.setString(1, "%" + search + "%");
-//                p.setString(2, "%" + search + "%");
-//                p.setString(3, "%" + search + "%");
-//                p.setString(4, "%" + search + "%");
-//                p.setString(5, search + "%");
-//                ResultSet rs = p.executeQuery();
-//                ObservableList<Book> bookList; 
-//                bookList = FXCollections.observableArrayList();
-//
-//                while (rs.next()) {
-//
-//                    String isbn = rs.getString("isbn");
-//                    String title = rs.getString("title");
-//                    String author = rs.getString("author");
-//                    String publisher = rs.getString("publisher");
-//                    String genre = rs.getString("genre");
-//                    int pages = rs.getInt("pages");
-//                    int quantity = rs.getInt("quantity");
-//                    int available = rs.getInt("available"); 
-//                    String date = rs.getString("datepublished");
-//
-//
-//                    Book newbook = new Book(isbn, title, author, publisher, date, genre, pages, quantity, available);
-//                    bookList.add(newbook);
-//
-//                }  
-//
-//                table.setItems(bookList); 
-//
-//            }
-//            catch(SQLException ex){
-//
-//            }
-//        }    
+ 
+        if(txtSearch.getText().isEmpty()){
+            
+        }
+        else{
+            
+            try {
+                
+                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
+                table.getItems().clear();
+                String search = txtSearch.getText();
+                
+                String sql = "SELECT * FROM member WHERE memberid LIKE ? OR firstname Like ? OR lastname LIKE ?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setString(1, "%" + search + "%");
+                p.setString(2, "%" + search + "%");
+                p.setString(3, "%" + search + "%");
+                ResultSet rs = p.executeQuery();
+
+                ObservableList<Member> memberList; 
+                memberList = FXCollections.observableArrayList();
+
+                while (rs.next()) {
+                    
+                    String id = rs.getString("memberid");
+                    String first = rs.getString("firstname");
+                    String last = rs.getString("lastname");
+                    String date = rs.getString("dob");
+                    int rentals = rs.getInt("rentals");
+                    String address = rs.getString("address");
+                    String phone = rs.getString("primaryphone");
+                    String email = rs.getString("primaryemail"); 
+
+                    Member newmember = new Member(id, first, last, address, phone, email, date, rentals);
+                    memberList.add(newmember);
+                }  
+                
+                table.setItems(memberList); 
+
+            }
+            catch(SQLException ex){
+
+            }
+        }    
     } 
     
     @FXML

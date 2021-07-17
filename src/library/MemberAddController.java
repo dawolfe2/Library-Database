@@ -64,11 +64,12 @@ public class MemberAddController implements Initializable {
             String last = txtLast.getText();
             String address = txtAddress.getText();
             String phoneOne = txtPhoneOne.getText();
-            String phoneTwo = txtPhoneTwo.getText();
             String emailOne = txtEmailOne.getText();
-            String emailTwo = txtEmailTwo.getText();
             String date = txtDate.getValue().toString();
             
+            String phoneTwo = txtPhoneTwo.getText();
+            String emailTwo = txtEmailTwo.getText();
+             
             txtFirst.setText("");
             txtLast.setText("");
             txtAddress.setText("");
@@ -76,10 +77,9 @@ public class MemberAddController implements Initializable {
             txtPhoneTwo.setText("");
             txtEmailOne.setText("");
             txtEmailTwo.setText("");
-            
-            //Book newbook = new Book(isbn, title, author, publisher, date, genre, pages, 1, 1);
-               
+                   
             try {
+                
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");             
                 
                 String sql = "SELECT memberid FROM member";
@@ -107,7 +107,6 @@ public class MemberAddController implements Initializable {
                 p.executeUpdate();
                 p.close();
                 
-                System.out.println("Added to Database");
                 } 
    
             catch (SQLException ex) {

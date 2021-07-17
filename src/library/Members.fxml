@@ -16,9 +16,9 @@
             <TableColumn fx:id="lastColumn" prefWidth="123.0" text="Last Name" />
             <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="137.0" text="Date of Birth" />
             <TableColumn fx:id="addressColumn" minWidth="0.0" prefWidth="118.0" text="Address" />
-            <TableColumn fx:id="rentalColumn" prefWidth="101.0" text="Primary Phone" />
-            <TableColumn fx:id="rentalColumn1" prefWidth="70.0" text="Primary Email" />
-            <TableColumn fx:id="rentalColumn2" prefWidth="70.0" text="Rentals" />
+            <TableColumn fx:id="phoneColumn" prefWidth="101.0" text="Primary Phone" />
+            <TableColumn fx:id="emailColumn" prefWidth="70.0" text="Primary Email" />
+            <TableColumn fx:id="rentalColumn" prefWidth="70.0" text="Rentals" />
         </columns>
       </TableView>
       <Button fx:id="btnSearch" layoutX="352.0" layoutY="36.0" mnemonicParsing="false" onAction="#ButtonSearch" text="Search" />

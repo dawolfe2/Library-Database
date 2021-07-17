@@ -4,6 +4,7 @@ package library;
 
 public class Member {
     
+    private String id;
     private String first;
     private String last;
     private String address;
@@ -12,8 +13,9 @@ public class Member {
     private String date;
     private int rentals;
     
-    public Member(String first, String last, String address, String phoneOne, String emailOne, String date, int rentals){
+    public Member(String id, String first, String last, String address, String phoneOne, String emailOne, String date, int rentals){
         
+        this.id = id;
         this.first = first;
         this.last = last;
         this.address = address;
@@ -22,6 +24,14 @@ public class Member {
         this.date = date;
         this.rentals = rentals;
         
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirst() {

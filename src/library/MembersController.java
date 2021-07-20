@@ -38,9 +38,9 @@ public class MembersController implements Initializable {
     @FXML private TableColumn<Member, String> lastColumn;
     @FXML private TableColumn<Member, String> dateColumn;
     @FXML private TableColumn<Member, String> addressColumn;
-    @FXML private TableColumn<Member, String> phoneColumn;
-    @FXML private TableColumn<Member, String> emailColumn;
     @FXML private TableColumn<Member, Integer> rentalColumn;
+    @FXML private TableColumn<Member, String> levelColumn;
+    @FXML private TableColumn<Member, String> duesColumn;
     
 @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,9 +50,9 @@ public class MembersController implements Initializable {
         lastColumn.setCellValueFactory(new PropertyValueFactory<>("last"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneOne"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("emailOne"));
         rentalColumn.setCellValueFactory(new PropertyValueFactory<>("rentals"));
+        levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        duesColumn.setCellValueFactory(new PropertyValueFactory<>("dues"));
         
     }   
     
@@ -88,10 +88,10 @@ public class MembersController implements Initializable {
                     String date = rs.getString("dob");
                     int rentals = rs.getInt("rentals");
                     String address = rs.getString("address");
-                    String phone = rs.getString("primaryphone");
-                    String email = rs.getString("primaryemail"); 
+                    String level = rs.getString("memberlevel");
+                    Double dues = rs.getDouble("dues"); 
 
-                    Member newmember = new Member(id, first, last, address, phone, email, date, rentals);
+                    Member newmember = new Member(id, first, last, address, date, rentals, level, dues);
                     memberList.add(newmember);
                 }  
                 

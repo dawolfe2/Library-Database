@@ -8,22 +8,22 @@ public class Member {
     private String first;
     private String last;
     private String address;
-    private String phoneOne;
-    private String emailOne;
     private String date;
     private int rentals;
+    private String level;
+    private Double dues;
     
-    public Member(String id, String first, String last, String address, String phoneOne, String emailOne, String date, int rentals){
+    public Member(String id, String first, String last, String address, String date, int rentals, String level, Double dues){
         
         this.id = id;
         this.first = first;
         this.last = last;
         this.address = address;
-        this.phoneOne = phoneOne;
-        this.emailOne = emailOne;
         this.date = date;
         this.rentals = rentals;
-        
+        this.level = level;
+        this.dues = dues;
+       
     }
 
     public String getId() {
@@ -58,20 +58,20 @@ public class Member {
         this.address = address;
     }
 
-    public String getPhoneOne() {
-        return phoneOne;
+    public String getLevel() {
+        return level;
     }
 
-    public void setPhoneOne(String phoneOne) {
-        this.phoneOne = phoneOne;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
-    public String getEmailOne() {
-        return emailOne;
+    public Double getDues() {
+        return dues;
     }
 
-    public void setEmailOne(String emailOne) {
-        this.emailOne = emailOne;
+    public void setDues(Double dues) {
+        this.dues = dues;
     }
 
     public String getDate() {

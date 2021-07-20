@@ -92,7 +92,7 @@ public class MemberAddController implements Initializable {
                 }
                 String id = "M0" + String.valueOf(count);
                 
-                sql = "INSERT INTO member (memberid, firstname, lastname, dob, rentals, address, primaryphone, primaryemail) Values (?, ?, ?, ?, ?, ?, ?, ? )";
+                sql = "INSERT INTO member (memberid, firstname, lastname, dob, rentals, address, memberlevel, dues) Values (?, ?, ?, ?, ?, ?, ?, ? )";
                 p = connection.prepareStatement(sql);
                          
                 p.setString(1, id);
@@ -101,8 +101,8 @@ public class MemberAddController implements Initializable {
                 p.setString(4, date);
                 p.setInt(5, 0);
                 p.setString(6, address);
-                p.setString(7, phoneOne);
-                p.setString(8, emailOne);
+                p.setString(7, "Basic");
+                p.setDouble(8, 0);
                   
                 p.executeUpdate();
                 p.close();

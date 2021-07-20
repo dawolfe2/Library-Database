@@ -3,7 +3,15 @@ package library;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +19,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
@@ -20,31 +32,210 @@ public class RentalsController implements Initializable {
     private Scene newscene;
     private Parent newroot;
     
+    @FXML private TextField txtSearch;
+    @FXML private TableView<Rental> table;
+    @FXML private TableColumn<Rental, String> memberIDColumn;
+    @FXML private TableColumn<Rental, String> nameColumn;
+    @FXML private TableColumn<Rental, String> isbnColumn;
+    @FXML private TableColumn<Rental, String> titleColumn;
+    @FXML private TableColumn<Rental, String> dueColumn;
+    @FXML private TableColumn<Rental, String> dateColumn;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        memberIDColumn.setCellValueFactory(new PropertyValueFactory<>("memberID"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        dueColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("rentalDate"));
     }    
     
     
     @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
-    
+        
+        if(txtSearch.getText().isEmpty()){
+
+            }
+        else{
+
+            try {
+
+                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
+                table.getItems().clear();
+                String search = txtSearch.getText();
+
+                String sql = "SELECT * FROM rentals WHERE memberid LIKE ? OR isbn LIKE ? OR name LIKE ? OR title LIKE ?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setString(1, "%" + search + "%");
+                p.setString(2, "%" + search + "%");
+                p.setString(3, "%" + search + "%");
+                p.setString(4, "%" + search + "%");
+                ResultSet rs = p.executeQuery();
+
+                ObservableList<Rental> rentalList; 
+                rentalList = FXCollections.observableArrayList();
+
+                while (rs.next()) {
+
+                    String Mid = rs.getString("memberid");
+                    String name = rs.getString("name");
+                    String isbn = rs.getString("isbn");
+                    String title = rs.getString("title");
+                    String due = rs.getString("due");
+                    String rented = rs.getString("rented");
+
+                    Rental newrental = new Rental(Mid, name, isbn, title, due, rented);
+                    rentalList.add(newrental);
+                }  
+
+                table.setItems(rentalList); 
+
+            }
+            catch(SQLException ex){
+
+            }
+        }    
+    }
+
+
+        @FXML
+        private void ButtonNew(ActionEvent event) throws IOException {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("RentalAdd.fxml"));
+                Parent windowroot = (Parent) loader.load();
+                Stage windowstage = new Stage();
+                windowstage.setScene(new Scene(windowroot));
+                windowstage.show();
+
+                } 
+            catch (IOException e) {
+                }
     }
     
-    @FXML
-    private void ButtonNew(ActionEvent event) throws IOException {
+     @FXML
+    private void ButtonReturn(ActionEvent event) throws IOException {
         
-        try {
+    
+        ObservableList<Rental> selected;
+        selected = table.getSelectionModel().getSelectedItems();
+        
+        if(selected.get(0) == null){
+            
+        }
+        else{     
+            try {
+                
+                Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
+                
+                    System.out.println("1");            
+                String idSelect = selected.get(0).getMemberID();
+                String isbnSelect = selected.get(0).getIsbn();
+                    System.out.println("1.12");
+                String sql = "SELECT * FROM rentals WHERE memberid=? AND isbn=?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setString(1, idSelect);
+                p.setString(2, isbnSelect);
+                ResultSet rs = p.executeQuery();
+                
+                String due = "";
+                String id = "";
+                String isbn = "";
+                
+                System.out.println("1.2");
+                
+                while(rs.next()){
+                    id = rs.getString("memberid");
+                    String name = rs.getString("name");
+                    isbn = rs.getString("isbn");
+                    String title = rs.getString("title");
+                    due = rs.getString("due");
+                    String rented = rs.getString("rented");
+                }
+                
+                   System.out.println("1.3");
+                
+                double fee = 0;
+                LocalDate today = LocalDate.now();
+                LocalDate duedate = LocalDate.parse(due);
+                
+                if(duedate.isBefore(today)){
+                    while(duedate != today){
+                        fee += .5;
+                        duedate.plusDays(1);
+                        if(fee == 100){
+                            duedate = today;
+                        }
+                    }
+                }
+                String returnDate = today.toString();
+                
+                    System.out.println("2");
+                
+                sql = "INSERT INTO return (memberid, isbn, due, returned, fee) Values (?, ?, ?, ?)";
+                p = connection.prepareStatement(sql);
+                p.setString(1, id);
+                p.setString(2, isbn);
+                p.setString(3, due);
+                p.setString(4, returnDate);
+                p.setDouble(5, fee);
+                p.executeUpdate();
+                    
+                    System.out.println("3");
+                
+                sql = "DELETE FROM rentals WHERE memberid=? AND isbn=?";    
+                p = connection.prepareStatement(sql);
+                p.setString(1, idSelect);
+                p.setString(2, isbnSelect);
+                p.executeUpdate();
+                table.getItems().remove(selected.get(0));
+                
+                    System.out.println("4");
+                
+                sql = "SELECT Available FROM book WHERE isbn=?";
+                p = connection.prepareStatement(sql);
+                p.setString(1, isbnSelect);
+                rs = p.executeQuery();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("RentalAdd.fxml"));
-            Parent windowroot = (Parent) loader.load();
-            Stage windowstage = new Stage();
-            windowstage.setScene(new Scene(windowroot));
-            windowstage.show();
+                int available = 0;
+                
+                while(rs.next()){
+                    available = rs.getInt("available");
+                }
+                available = available + 1;
+                
+                sql = "UPDATE book SET available=? WHERE isbn=?";
+                p = connection.prepareStatement(sql);
+                p.setInt(1, available);
+                p.setString(2, isbn);
+                p.executeUpdate();
+                
+                if(fee > 0){
+                    sql = "SELECT dues FROM member WHERE isbn=?";
+                    p = connection.prepareStatement(sql);
+                    p.setString(1, isbn);
+                    rs = p.executeQuery();
 
-            } 
-        catch (IOException e) {
+                    double dues = 0;
+
+                    while(rs.next()){
+                        dues = rs.getInt("dues");
+                    }
+                    dues = dues + fee;
+
+                    sql = "UPDATE member SET dues=? WHERE isbn=?";
+                    p = connection.prepareStatement(sql);
+                    p.setDouble(1, dues);
+                    p.setString(2, isbn);
+                    p.executeUpdate();
+                }
+            }   
+            catch (SQLException ex) {
             }
+        }
     }
     
     @FXML

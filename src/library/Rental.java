@@ -10,15 +10,37 @@ public class Rental {
     private String title;
     private String dueDate;
     private String rentalDate;
+    private String returnDate;
+    private Double fee;
     
-    public Rental(String memberID, String name, String isbn, String title, String dueDate, String rentalDate){
+    public Rental(String memberID, String name, String isbn, String title, String dueDate, String rentalDate, String returnDate, Double fee){
         this.memberID = memberID;
         this.name = name;
         this.isbn = isbn;
         this.title = title;
         this.dueDate = dueDate;
         this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+        this.fee =fee;
     }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public Double getFee() {
+        return fee;
+    }
+
+    public void setFee(Double fee) {
+        this.fee = fee;
+    }
+    
+    
 
     public String getMemberID() {
         return memberID;

@@ -40,6 +40,8 @@ public class RentalsController implements Initializable {
     @FXML private TableColumn<Rental, String> titleColumn;
     @FXML private TableColumn<Rental, String> dueColumn;
     @FXML private TableColumn<Rental, String> dateColumn;
+    @FXML private TableColumn<Rental, String> returnColumn;
+    @FXML private TableColumn<Rental, Double> feeColumn;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,6 +51,8 @@ public class RentalsController implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         dueColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("rentalDate"));
+        returnColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        feeColumn.setCellValueFactory(new PropertyValueFactory<>("fee"));
     }    
     
     
@@ -85,8 +89,10 @@ public class RentalsController implements Initializable {
                     String title = rs.getString("title");
                     String due = rs.getString("due");
                     String rented = rs.getString("rented");
+                    String returned = rs.getString("returned");
+                    Double fee = rs.getDouble("fee");
 
-                    Rental newrental = new Rental(Mid, name, isbn, title, due, rented);
+                    Rental newrental = new Rental(Mid, name, isbn, title, due, rented, returned, fee);
                     rentalList.add(newrental);
                 }  
 
@@ -131,21 +137,19 @@ public class RentalsController implements Initializable {
                 
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 
-                    System.out.println("1");            
                 String idSelect = selected.get(0).getMemberID();
                 String isbnSelect = selected.get(0).getIsbn();
-                    System.out.println("1.12");
+
                 String sql = "SELECT * FROM rentals WHERE memberid=? AND isbn=?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, idSelect);
                 p.setString(2, isbnSelect);
                 ResultSet rs = p.executeQuery();
-                
+
                 String due = "";
                 String id = "";
                 String isbn = "";
-                
-                System.out.println("1.2");
+                String inReturned = null;
                 
                 while(rs.next()){
                     id = rs.getString("memberid");
@@ -154,83 +158,82 @@ public class RentalsController implements Initializable {
                     String title = rs.getString("title");
                     due = rs.getString("due");
                     String rented = rs.getString("rented");
+                    inReturned = rs.getString("returned");
+                    Double inFee = rs.getDouble("fee");
                 }
-                
-                   System.out.println("1.3");
-                
-                double fee = 0;
-                LocalDate today = LocalDate.now();
-                LocalDate duedate = LocalDate.parse(due);
-                
-                if(duedate.isBefore(today)){
-                    while(duedate != today){
-                        fee += .5;
-                        duedate.plusDays(1);
-                        if(fee == 100){
-                            duedate = today;
+
+                if(inReturned != null){
+                    System.out.println("already returned");
+                }
+                else{
+                    
+                    double fee = 0;
+                    LocalDate today = LocalDate.now();
+                    LocalDate duedate = LocalDate.parse(due);
+                    String strToday = today.toString();
+                    String strDue = duedate.toString();
+
+                    if(duedate.isBefore(today)){
+                        while(!strToday.equals(strDue)){
+                            fee += .5;
+                            duedate = duedate.plusDays(1);
+                            strDue = duedate.toString();
+                            if(fee > 99.5){
+                                strToday = strDue;
+                            }
                         }
                     }
-                }
-                String returnDate = today.toString();
-                
-                    System.out.println("2");
-                
-                sql = "INSERT INTO return (memberid, isbn, due, returned, fee) Values (?, ?, ?, ?)";
-                p = connection.prepareStatement(sql);
-                p.setString(1, id);
-                p.setString(2, isbn);
-                p.setString(3, due);
-                p.setString(4, returnDate);
-                p.setDouble(5, fee);
-                p.executeUpdate();
-                    
-                    System.out.println("3");
-                
-                sql = "DELETE FROM rentals WHERE memberid=? AND isbn=?";    
-                p = connection.prepareStatement(sql);
-                p.setString(1, idSelect);
-                p.setString(2, isbnSelect);
-                p.executeUpdate();
-                table.getItems().remove(selected.get(0));
-                
-                    System.out.println("4");
-                
-                sql = "SELECT Available FROM book WHERE isbn=?";
-                p = connection.prepareStatement(sql);
-                p.setString(1, isbnSelect);
-                rs = p.executeQuery();
 
-                int available = 0;
-                
-                while(rs.next()){
-                    available = rs.getInt("available");
-                }
-                available = available + 1;
-                
-                sql = "UPDATE book SET available=? WHERE isbn=?";
-                p = connection.prepareStatement(sql);
-                p.setInt(1, available);
-                p.setString(2, isbn);
-                p.executeUpdate();
-                
-                if(fee > 0){
-                    sql = "SELECT dues FROM member WHERE isbn=?";
+                    String returnDate = today.toString();
+                    
+                    sql = "UPDATE rentals SET returned=?, fee=? WHERE memberid=? AND isbn=?";
                     p = connection.prepareStatement(sql);
-                    p.setString(1, isbn);
+                    p.setString(1, returnDate);
+                    p.setDouble(2, fee);
+                    p.setString(3, id);
+                    p.setString(4, isbn);
+                    p.executeUpdate();
+
+                    sql = "SELECT Available FROM book WHERE isbn=?";
+                    p = connection.prepareStatement(sql);
+                    p.setString(1, isbnSelect);
                     rs = p.executeQuery();
 
-                    double dues = 0;
+                    int available = 0;
 
                     while(rs.next()){
-                        dues = rs.getInt("dues");
+                        available = rs.getInt("available");
                     }
-                    dues = dues + fee;
+                    available = available + 1;
 
-                    sql = "UPDATE member SET dues=? WHERE isbn=?";
+                    sql = "UPDATE book SET available=? WHERE isbn=?";
                     p = connection.prepareStatement(sql);
-                    p.setDouble(1, dues);
+                    p.setInt(1, available);
                     p.setString(2, isbn);
                     p.executeUpdate();
+
+                    if(fee > 0){
+                        sql = "SELECT dues FROM member WHERE memberid=?";
+                        p = connection.prepareStatement(sql);
+                        p.setString(1, id);
+                        rs = p.executeQuery();
+
+                        double dues = 0;
+
+                        while(rs.next()){
+                            dues = rs.getDouble("dues");
+                        }
+                        
+                        dues = dues + fee;
+                        
+                        sql = "UPDATE member SET dues=? WHERE memberid=?";
+                        p = connection.prepareStatement(sql);
+                        p.setDouble(1, dues);
+                        p.setString(2, id);
+                        p.executeUpdate();
+
+                        System.out.println("end");
+                    }
                 }
             }   
             catch (SQLException ex) {

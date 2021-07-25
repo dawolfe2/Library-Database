@@ -93,7 +93,7 @@ public class RentalAddController implements Initializable {
                     intMonth = intMonth + 1;
                     month = "0" + String.valueOf(intMonth);
                     dateDue = dateDue.substring(0,5) + month + dateDue.substring(7,10);
-
+                    
                     sql = "INSERT INTO rentals (memberid, name, isbn, title, due, rented) Values (?, ?, ?, ?, ?, ?)";
                     p = connection.prepareStatement(sql);
                     p.setString(1, id);
@@ -110,6 +110,9 @@ public class RentalAddController implements Initializable {
                     p.setString(2, isbn);
                     p.executeUpdate();
                     p.close();
+                    
+                    txtMemberID.setText("");
+                    txtISBN.setText("");
                 }    
             }
         }

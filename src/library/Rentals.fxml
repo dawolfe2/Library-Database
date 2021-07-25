@@ -12,12 +12,14 @@
       <Button fx:id="btnSearch" layoutX="350.0" layoutY="36.0" mnemonicParsing="false" onAction="#ButtonSearch" text="Search" />
       <TableView fx:id="table" layoutX="1.0" layoutY="88.0" prefHeight="497.0" prefWidth="900.0">
         <columns>
-          <TableColumn fx:id="memberIDColumn" prefWidth="154.0" text="MemberID" />
-          <TableColumn fx:id="nameColumn" prefWidth="181.0" text="Member Name" />
-            <TableColumn fx:id="isbnColumn" prefWidth="97.0" text="ISBN" />
-            <TableColumn fx:id="titleColumn" minWidth="0.0" prefWidth="157.0" text="Title" />
-            <TableColumn fx:id="dueColumn" minWidth="0.0" prefWidth="77.0" text="Due Date" />
-            <TableColumn fx:id="dateColumn" prefWidth="111.0" text="Date Checked Out" />
+          <TableColumn fx:id="memberIDColumn" prefWidth="108.0" text="MemberID" />
+          <TableColumn fx:id="nameColumn" prefWidth="161.0" text="Member Name" />
+            <TableColumn fx:id="isbnColumn" prefWidth="102.0" text="ISBN" />
+            <TableColumn fx:id="titleColumn" minWidth="0.0" prefWidth="189.0" text="Title" />
+            <TableColumn fx:id="dueColumn" minWidth="0.0" prefWidth="91.0" text="Due Date" />
+            <TableColumn fx:id="dateColumn" prefWidth="76.0" text="Checked Out" />
+            <TableColumn fx:id="returnColumn" prefWidth="109.0" text="Returned" />
+            <TableColumn fx:id="feeColumn" prefWidth="63.0" text="Late Fee" />
         </columns>
       </TableView>
       <Button fx:id="btnNew" layoutX="562.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonNew" prefHeight="25.0" prefWidth="110.0" text="Check Out Book" />

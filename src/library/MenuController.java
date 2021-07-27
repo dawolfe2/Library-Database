@@ -47,6 +47,15 @@ public class MenuController implements Initializable {
         stage.show();
     }
     
+    @FXML
+    private void ButtonReservation(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Reservation.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

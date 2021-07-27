@@ -10,5 +10,6 @@
       <Button fx:id="member" layoutX="333.0" layoutY="311.0" onAction="#handleButtonAction1" style="-fx-font-size: 18;" text="Member Information" />
       <Button fx:id="books" layoutX="363.0" layoutY="383.0" onAction="#handleButtonAction2" style="-fx-font-size: 18;" text="Book Archive" />
       <Button fx:id="rentals" layoutX="361.0" layoutY="452.0" onAction="#handleButtonAction3" style="-fx-font-size: 18;" text="Rented Books" />
+      <Button fx:id="btnReservation" layoutX="361.0" layoutY="522.0" onAction="#ButtonReservation" style="-fx-font-size: 18;" text="Reservations" />
    </children>
 </AnchorPane>

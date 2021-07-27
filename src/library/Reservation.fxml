@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.RentalsController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.ReservationController">
    <children>
       <TextField fx:id="txtSearch" layoutX="48.0" layoutY="36.0" prefHeight="25.0" prefWidth="283.0" promptText="Search by ID, Name, ISBN or Title" />
       <Button fx:id="btnSearch" layoutX="350.0" layoutY="36.0" mnemonicParsing="false" onAction="#ButtonSearch" text="Search" />
@@ -17,15 +17,12 @@
           <TableColumn fx:id="nameColumn" prefWidth="161.0" text="Member Name" />
             <TableColumn fx:id="isbnColumn" prefWidth="102.0" text="ISBN" />
             <TableColumn fx:id="titleColumn" minWidth="0.0" prefWidth="189.0" text="Title" />
-            <TableColumn fx:id="dueColumn" minWidth="0.0" prefWidth="91.0" text="Due Date" />
-            <TableColumn fx:id="dateColumn" prefWidth="76.0" text="Checked Out" />
-            <TableColumn fx:id="returnColumn" prefWidth="109.0" text="Returned" />
-            <TableColumn fx:id="feeColumn" prefWidth="63.0" text="Late Fee" />
+            <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="91.0" text="End Date" />
         </columns>
       </TableView>
-      <Button fx:id="btnNew" layoutX="562.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonNew" prefHeight="25.0" prefWidth="110.0" text="Check Out Book" />
+      <Button fx:id="btnReserve" layoutX="562.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonReserve" prefHeight="25.0" prefWidth="110.0" text="Reserve Book" />
       <Button fx:id="btnBack" layoutX="69.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonBack" prefHeight="25.0" prefWidth="52.0" text="Back" />
-      <Button fx:id="btnReturn" layoutX="714.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonReturn" text="Return Book" />
-      <Label layoutX="598.0" layoutY="30.0" style="-fx-font-size: 26;" text="Book Rentals" />
+      <Button fx:id="btnRemove" layoutX="714.0" layoutY="627.0" mnemonicParsing="false" onAction="#ButtonRemove" text="Remove Reservation" />
+      <Label layoutX="586.0" layoutY="30.0" style="-fx-font-size: 26;" text="Reservations" />
    </children>
 </AnchorPane>

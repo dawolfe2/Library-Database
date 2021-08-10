@@ -18,6 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+//Book add controller allows the user to add a book to the database
 
 public class BookAddController implements Initializable {
 
@@ -48,7 +49,7 @@ public class BookAddController implements Initializable {
     @FXML
     private void ButtonAdd(ActionEvent event) {
         
-        
+            //checks if any required input text is empty
         if(Integer.valueOf(txtPages.getText()) < 1 || txtID.getText().isEmpty() || txtTitle.getText().isEmpty() || txtAuthor.getText().isEmpty() ||
                 txtPublisher.getText().isEmpty() || txtGenre.getText().isEmpty() || txtDate.getValue().toString().isEmpty()){
             
@@ -58,6 +59,7 @@ public class BookAddController implements Initializable {
         
         else{
         
+                //grabs input text from text labels
             String isbn = txtID.getText();
             String title = txtTitle.getText();
             String author = txtAuthor.getText();
@@ -66,6 +68,7 @@ public class BookAddController implements Initializable {
             int pages = Integer.valueOf(txtPages.getText());
             String date = txtDate.getValue().toString();
             
+                //erases text from labels on the page for new entry
             txtID.setText("");
             txtTitle.setText("");
             txtAuthor.setText("");
@@ -73,11 +76,14 @@ public class BookAddController implements Initializable {
             txtGenre.setText("");
             txtPages.setText("");
             
+                //creates book object with inputs
             Book newbook = new Book(isbn, title, author, publisher, date, genre, pages, 1, 1);
                
+                //connects to the database using the local address, user and pass
             try {
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 
+                    //prepares sql statement with inputs to enter into the database
                 String sql = "INSERT INTO book (isbn, title, author, publisher, genre, pages, quantity, available, datepublished) Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement p = connection.prepareStatement(sql);
                        

@@ -41,8 +41,9 @@ public class ReservationAddController implements Initializable {
                 String memberIN = txtMemberID.getText();
                 String isbnIN = txtISBN.getText();
                 String dateIN = txtDate.getValue().toString();
-
-                    String sql = "SELECT memberid,firstname,lastname FROM member where memberid=?";
+                        
+                        System.out.println("1");
+                    String sql = "SELECT memberid,firstname,lastname FROM member WHERE memberid=?";
                     PreparedStatement p = connection.prepareStatement(sql);
                     p.setString(1, memberIN);
                     ResultSet rs1 = p.executeQuery();
@@ -54,6 +55,7 @@ public class ReservationAddController implements Initializable {
                     String isbn = "";
                     String title = "";
 
+                            System.out.println("2");
                     while(rs1.next()){
                         id = rs1.getString("memberid");
                         first = rs1.getString("firstname");
@@ -66,20 +68,25 @@ public class ReservationAddController implements Initializable {
                     p.setString(1, isbnIN);
                     ResultSet rs2 = p.executeQuery();
 
+                        System.out.println("3");
                     while(rs2.next()){
                         isbn = rs2.getString("isbn");
                         title = rs2.getString("title");
                     }
                     
-                    sql = "INSERT INTO reservation (memberid, name, isbn, title, enddate) Values (?, ?, ?, ?, ?)";
+                        System.out.println("4");
+                    sql = "INSERT INTO reservation (isbn, id, name, title, enddate) Values (?, ?, ?, ?, ?)";
                     p = connection.prepareStatement(sql);
-                    p.setString(1, id);
-                    p.setString(2, name);
-                    p.setString(3, isbn);
+                    p.setString(1, isbn);
+                    p.setString(2, id);
+                    p.setString(3, name);
                     p.setString(4, title);
                     p.setString(5, dateIN);
-                    p.executeUpdate();;
+                    System.out.println(id + name + isbn + title + dateIN);
+                    p.executeUpdate();
+                    p.close();
                     
+                        System.out.println("5");
                     txtMemberID.setText("");
                     txtISBN.setText("");
                 }    

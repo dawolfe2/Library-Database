@@ -19,7 +19,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+    //java controller to add a member into the database
 public class MemberAddController implements Initializable {
 
     private Stage newstage;
@@ -50,7 +50,7 @@ public class MemberAddController implements Initializable {
     @FXML
     private void ButtonAdd(ActionEvent event) throws IOException {
         
-        
+            //checks for empty input fields
         if( txtFirst.getText().isEmpty() || txtLast.getText().isEmpty() || txtAddress.getText().isEmpty() ||
                 txtPhoneOne.getText().isEmpty() || txtEmailOne.getText().isEmpty() || txtDate.getValue().toString().isEmpty()){
             
@@ -60,6 +60,7 @@ public class MemberAddController implements Initializable {
         
         else{
         
+                //stores input data into variables
             String first = txtFirst.getText();
             String last = txtLast.getText();
             String address = txtAddress.getText();
@@ -70,6 +71,7 @@ public class MemberAddController implements Initializable {
             String phoneTwo = txtPhoneTwo.getText();
             String emailTwo = txtEmailTwo.getText();
              
+                //sets label text to empty for new input
             txtFirst.setText("");
             txtLast.setText("");
             txtAddress.setText("");
@@ -90,8 +92,10 @@ public class MemberAddController implements Initializable {
                 while(rsID.next()){
                     count = count + 1;
                 }
+                    //member id creation
                 String id = "M0" + String.valueOf(count);
                 
+                    //prepares insert sql statement for database
                 sql = "INSERT INTO member (memberid, firstname, lastname, dob, rentals, address, memberlevel, dues) Values (?, ?, ?, ?, ?, ?, ?, ? )";
                 p = connection.prepareStatement(sql);
                          

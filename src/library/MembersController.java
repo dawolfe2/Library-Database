@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-
+    //members controller to search the database for members by search and other functions
 public class MembersController implements Initializable {
 
     private Stage newstage;
@@ -59,6 +59,7 @@ public class MembersController implements Initializable {
    @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
  
+            //checks for emtpy search text box
         if(txtSearch.getText().isEmpty()){
             
         }
@@ -66,10 +67,12 @@ public class MembersController implements Initializable {
             
             try {
                 
+                    //tries connecting to the database with localhost, user and pass
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 table.getItems().clear();
                 String search = txtSearch.getText();
                 
+                    //prepares select sql statement for selecting matching searches
                 String sql = "SELECT * FROM member WHERE memberid LIKE ? OR firstname Like ? OR lastname LIKE ?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, "%" + search + "%");
@@ -80,6 +83,7 @@ public class MembersController implements Initializable {
                 ObservableList<Member> memberList; 
                 memberList = FXCollections.observableArrayList();
 
+                    //loops through resultset to add members to the list for the tableview
                 while (rs.next()) {
                     
                     String id = rs.getString("memberid");

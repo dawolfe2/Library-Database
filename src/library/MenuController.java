@@ -1,3 +1,6 @@
+//Library Management Project
+//By: Daniel Wolfe
+//CSI 3450 Project code
 
 package library;
 
@@ -13,7 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+    //menu controller code
 public class MenuController implements Initializable {
     
     private Stage stage;

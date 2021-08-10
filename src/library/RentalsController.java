@@ -25,7 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-
+    //rentals java controller for searching rental table and its features
 public class RentalsController implements Initializable {
 
     private Stage newstage;
@@ -59,17 +59,20 @@ public class RentalsController implements Initializable {
     @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
         
+            //checks for empty search text
         if(txtSearch.getText().isEmpty()){
 
             }
         else{
 
+                //tries to connect to database with localhost, user and pass
             try {
 
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 table.getItems().clear();
                 String search = txtSearch.getText();
 
+                    //prepares select sql statement by partial match of input search text
                 String sql = "SELECT * FROM rentals WHERE memberid LIKE ? OR isbn LIKE ? OR name LIKE ? OR title LIKE ?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, "%" + search + "%");
@@ -81,6 +84,7 @@ public class RentalsController implements Initializable {
                 ObservableList<Rental> rentalList; 
                 rentalList = FXCollections.observableArrayList();
 
+                    //loops through resultset to set objects to the list for the tableview
                 while (rs.next()) {
 
                     String Mid = rs.getString("memberid");
@@ -122,6 +126,8 @@ public class RentalsController implements Initializable {
                 }
     }
     
+            //return button to return a book and update rental database
+            //updates return date, latefee, member dues, and book availability
      @FXML
     private void ButtonReturn(ActionEvent event) throws IOException {
         

@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-
+    //Book archive section for searching and interacting with book functions
 public class BooksController implements Initializable {
 
     private Stage newstage;
@@ -59,6 +59,7 @@ public class BooksController implements Initializable {
     @FXML
     private void ButtonSearch(ActionEvent event) throws IOException {
  
+            //checks for empty search text
         if(txtSearch.getText().isEmpty()){
             
         }
@@ -66,10 +67,12 @@ public class BooksController implements Initializable {
             
             try {
 
+                    //tries connecting to the database
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 table.getItems().clear();
                 String search = txtSearch.getText();
 
+                    //prepares select SQL statement for search
                 String sql = "SELECT * FROM book WHERE title LIKE ? OR author Like ? OR genre LIKE ? OR publisher LIKE ? OR isbn LIKE ?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, "%" + search + "%");
@@ -81,6 +84,7 @@ public class BooksController implements Initializable {
                 ObservableList<Book> bookList; 
                 bookList = FXCollections.observableArrayList();
 
+                    //loops through the resultset search to output data onto the tableview
                 while (rs.next()) {
 
                     String isbn = rs.getString("isbn");
@@ -108,7 +112,7 @@ public class BooksController implements Initializable {
         }    
     }
         
-    
+        //button to add a copy of the book to the database and window
     @FXML
     private void ButtonAdd(ActionEvent event) throws IOException {
         
@@ -124,7 +128,8 @@ public class BooksController implements Initializable {
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 
                 String isbn = selected.get(0).getIsbn();
-                
+                    
+                    //checks current availability of books
                 String sql = "SELECT quantity, available FROM book WHERE isbn=?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, isbn);
@@ -137,6 +142,7 @@ public class BooksController implements Initializable {
                     quantity = quantity + 1;
                     available = available + 1;
 
+                        //updates to new availability in database
                     sql = "UPDATE book SET quantity=?, available=? WHERE isbn=?";
                     p = connection.prepareStatement(sql);
                     p.setInt(1, quantity);
@@ -154,7 +160,8 @@ public class BooksController implements Initializable {
         else{
             
             try {
-
+                    
+                    //does another search to reset tableview window
                 Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
                 table.getItems().clear();
                 String search = txtSearch.getText();

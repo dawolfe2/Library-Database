@@ -61,7 +61,7 @@ public class ReservationController implements Initializable {
                 table.getItems().clear();
                 String search = txtSearch.getText();
 
-                String sql = "SELECT * FROM reservation WHERE memberid LIKE ? OR isbn LIKE ? OR name LIKE ? OR title LIKE ?";
+                String sql = "SELECT * FROM reservation WHERE id LIKE ? OR isbn LIKE ? OR name LIKE ? OR title LIKE ?";
                 PreparedStatement p = connection.prepareStatement(sql);
                 p.setString(1, "%" + search + "%");
                 p.setString(2, "%" + search + "%");

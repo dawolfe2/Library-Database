@@ -1,7 +1,7 @@
 
 package library;
 
-
+    //member class to descrive member object for tableview
 public class Member {
     
     private String id;

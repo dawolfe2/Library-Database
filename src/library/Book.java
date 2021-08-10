@@ -1,6 +1,8 @@
 
 package library;
 
+//Book class to describe book objects
+//Used for attaching to tableview objects
 
 public class Book {
     

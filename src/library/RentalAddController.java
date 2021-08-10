@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
-
+    //rental add controller for adding rental data to the database
 public class RentalAddController implements Initializable {
 
     @FXML private TextField txtMemberID;
@@ -29,20 +29,25 @@ public class RentalAddController implements Initializable {
     
     @FXML
     private void ButtonCheckOut(ActionEvent event) throws IOException {
+        
+            //tries connecting to the database with locahost, user and pass
         try{
             
             Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/contact", "nbuser", "nbuser");
     
+                //checks for missing input text
             if(txtMemberID.getText().isEmpty() || txtISBN.getText().isEmpty() || txtDate.getValue().toString().isEmpty()){
                 System.out.println("bad input");
             }  
             else{
                 
+                    //takes input values and stores into variables
                 String memberIN = txtMemberID.getText();
                 String isbnIN = txtISBN.getText();
                 String dateIN = txtDate.getValue().toString();
                 int available = 0;
-
+                
+                    //checks for amount of books in database
                 String sql = "SELECT Available FROM book WHERE isbn=?";
 
                 PreparedStatement p = connection.prepareStatement(sql);
@@ -52,10 +57,12 @@ public class RentalAddController implements Initializable {
                     available = rs.getInt("available");
                 }
                 
+                    //if a book is available, proceed
                 if(available > 0){
                     
                     available = available - 1;
 
+                        //selects member data using input member id
                     sql = "SELECT memberid,firstname,lastname FROM member where memberid=?";
                     p = connection.prepareStatement(sql);
                     p.setString(1, memberIN);
@@ -75,6 +82,7 @@ public class RentalAddController implements Initializable {
                         name = first + " " + last;
                     }
 
+                        //selects book data using input book isbn
                     sql = "SELECT isbn,title FROM book where isbn=?";
                     p = connection.prepareStatement(sql);
                     p.setString(1, isbnIN);
@@ -85,6 +93,7 @@ public class RentalAddController implements Initializable {
                         title = rs2.getString("title");
                     }
 
+                        //configures return by date with date conversions
                     String dateDue = dateIN;
                     String month;
                     month = "" + dateDue.charAt(5) + dateDue.charAt(6);
@@ -94,6 +103,7 @@ public class RentalAddController implements Initializable {
                     month = "0" + String.valueOf(intMonth);
                     dateDue = dateDue.substring(0,5) + month + dateDue.substring(7,10);
                     
+                        //inserts new rental data into rental table database
                     sql = "INSERT INTO rentals (memberid, name, isbn, title, due, rented) Values (?, ?, ?, ?, ?, ?)";
                     p = connection.prepareStatement(sql);
                     p.setString(1, id);
@@ -104,6 +114,7 @@ public class RentalAddController implements Initializable {
                     p.setString(6, dateIN);
                     p.executeUpdate();
 
+                        //updates book available value in database
                     sql = "UPDATE book SET available=? WHERE isbn=?";
                     p = connection.prepareStatement(sql);
                     p.setInt(1, available);
